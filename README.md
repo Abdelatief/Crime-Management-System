@@ -2,7 +2,7 @@
 Object oriented programming project
 
 ### Notes
-I've divided the project to two main packages (The default package and the GUI package)
+I've divided the project into two main packages (The default package and the GUI package)
 The classes we implemented are in the default package and the forms in the GUI package (we can change that later)
 
 ### GUI Forms
