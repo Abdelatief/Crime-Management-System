@@ -3,10 +3,10 @@ Object oriented programming project
 
 ### Notes
 I've divided the project into two main packages (The default package and the GUI package)
-The classes we implemented are in the default package and the forms in the GUI package (we can change that later)
+The classes we implemented are in the default package (we can change that later) and the forms in the GUI package
 
 ### GUI Forms
-We have login form and access forms and classes handeling forms
+We have login form and access forms and class handeling forms
 I know that's too many forms but explicit is better than implicit and in this way every form will do only one thing
 to avoid complicity
 
