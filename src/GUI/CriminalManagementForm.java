@@ -36,6 +36,8 @@ public class CriminalManagementForm extends javax.swing.JFrame {
         EditButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         CardLayoutPanel = new javax.swing.JPanel();
+        ViewCasesCard = new javax.swing.JPanel();
+        AddCasesCard = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,6 +52,11 @@ public class CriminalManagementForm extends javax.swing.JFrame {
         AddButton.setForeground(new java.awt.Color(255, 255, 255));
         AddButton.setText("Add Criminals");
         AddButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 59, 115)));
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddButtonActionPerformed(evt);
+            }
+        });
 
         DeleteButton.setBackground(new java.awt.Color(0, 26, 53));
         DeleteButton.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
@@ -62,6 +69,11 @@ public class CriminalManagementForm extends javax.swing.JFrame {
         ViewButton.setForeground(new java.awt.Color(255, 255, 255));
         ViewButton.setText("Vew Criminals");
         ViewButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 59, 115)));
+        ViewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewButtonActionPerformed(evt);
+            }
+        });
 
         EditButton.setBackground(new java.awt.Color(0, 26, 53));
         EditButton.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
@@ -108,33 +120,53 @@ public class CriminalManagementForm extends javax.swing.JFrame {
 
         CardLayoutPanel.setBackground(new java.awt.Color(0, 40, 89));
         CardLayoutPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CardLayoutPanel.setLayout(new java.awt.CardLayout());
 
-        javax.swing.GroupLayout CardLayoutPanelLayout = new javax.swing.GroupLayout(CardLayoutPanel);
-        CardLayoutPanel.setLayout(CardLayoutPanelLayout);
-        CardLayoutPanelLayout.setHorizontalGroup(
-            CardLayoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 754, Short.MAX_VALUE)
+        ViewCasesCard.setBackground(new java.awt.Color(0, 255, 0));
+
+        javax.swing.GroupLayout ViewCasesCardLayout = new javax.swing.GroupLayout(ViewCasesCard);
+        ViewCasesCard.setLayout(ViewCasesCardLayout);
+        ViewCasesCardLayout.setHorizontalGroup(
+            ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1286, Short.MAX_VALUE)
         );
-        CardLayoutPanelLayout.setVerticalGroup(
-            CardLayoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 673, Short.MAX_VALUE)
+        ViewCasesCardLayout.setVerticalGroup(
+            ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 823, Short.MAX_VALUE)
         );
+
+        CardLayoutPanel.add(ViewCasesCard, "card3");
+
+        AddCasesCard.setBackground(new java.awt.Color(255, 51, 51));
+
+        javax.swing.GroupLayout AddCasesCardLayout = new javax.swing.GroupLayout(AddCasesCard);
+        AddCasesCard.setLayout(AddCasesCardLayout);
+        AddCasesCardLayout.setHorizontalGroup(
+            AddCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1286, Short.MAX_VALUE)
+        );
+        AddCasesCardLayout.setVerticalGroup(
+            AddCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 823, Short.MAX_VALUE)
+        );
+
+        CardLayoutPanel.add(AddCasesCard, "card2");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(CardLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addComponent(CardLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
-                .addComponent(CardLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(CardLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -143,8 +175,9 @@ public class CriminalManagementForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,11 +193,27 @@ public class CriminalManagementForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ViewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewButtonActionPerformed
+        CardLayoutPanel.removeAll();
+        CardLayoutPanel.add(ViewCasesCard);
+        CardLayoutPanel.repaint();
+        CardLayoutPanel.revalidate();
+    }//GEN-LAST:event_ViewButtonActionPerformed
+
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+        CardLayoutPanel.removeAll();
+        CardLayoutPanel.add(AddCasesCard);
+        CardLayoutPanel.repaint();
+        CardLayoutPanel.revalidate();
+    }//GEN-LAST:event_AddButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,6 +242,12 @@ public class CriminalManagementForm extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -204,10 +259,12 @@ public class CriminalManagementForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
+    private javax.swing.JPanel AddCasesCard;
     private javax.swing.JPanel CardLayoutPanel;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JButton EditButton;
     private javax.swing.JButton ViewButton;
+    private javax.swing.JPanel ViewCasesCard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
