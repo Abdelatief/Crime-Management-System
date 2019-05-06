@@ -9,8 +9,9 @@ import java.util.Vector;
 public class Criminal extends person
 {
     private String currentlocation;
-    private Vector<String>Crimes;
+    public Vector<String>Crimes;
     private String DangerLevel;
+    public static Vector<Criminal> criminals = new Vector<>();
 
     public Criminal(int id , String name,String currentlocation,Vector<String> Crimes,String Danger)
     {
@@ -18,6 +19,7 @@ public class Criminal extends person
          this.currentlocation=currentlocation;
          this.Crimes=Crimes;
          this.DangerLevel=Danger;
+         criminals.add(this);
     }
 
     public Criminal get_criminal()
