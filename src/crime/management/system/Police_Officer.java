@@ -16,6 +16,7 @@ public class Police_Officer extends person
     private String phone ;
     private float salary;
     Department Dep;
+    public static Vector <Police_Officer> officers = new Vector<>();
     Vector <Case> Allcases;
 
     public Police_Officer(int id,String name,String phone,float salary ,Department dep)
@@ -38,7 +39,15 @@ public class Police_Officer extends person
        return this; 
     }
 
-
+    public static Police_Officer get_officer_by_id(int id)
+    {
+        for (int i = 0; i < officers.size(); i++)
+        {
+            if (officers.get(i).getId() == id)
+                return officers.get(i);
+        }
+        return null;
+    }
 
     public void addofficer(int id,String name,String phone,float salary ,Department dep,Vector<Case> achieved)
     {
