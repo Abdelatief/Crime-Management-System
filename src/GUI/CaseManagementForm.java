@@ -1,21 +1,92 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI;
+import crime.management.system.*;
+import java.util.Vector;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
- *
  * @author Abdelatief
  */
+
 public class CaseManagementForm extends javax.swing.JFrame {
 
     /**
      * Creates new form CaseManagement
      */
-    public CaseManagementForm() {
+    DefaultListModel<String> dlm;
+    public CaseManagementForm() 
+    {
         initComponents();
+        //OfficersList = list;
+        // creating some objects for testing
+        Department dep = new Department(159, "Public Safety", "5/11/2014");
+        Case case1 = new Case(101, "Robbery", "House Robbery", dep, "today");
+        Case case2 = new Case(103, "Scam", "Scam description", dep, "17-2-2019");
+        Police_Officer officer1 = new Police_Officer(7, "James Bond", "01*****", 25000, dep);
+        Police_Officer officer2 = new Police_Officer(7, "Johny English", "0******", 10000, dep);
+        Vector<String> crimes = new Vector<>();
+        crimes.add("crime1");
+        crimes.add("crime2");
+        Criminal criminal1 = new Criminal(500, "Ramsey", "Winterfell", crimes, "Super Dangerous");
+        case1.add_Officer(officer1);
+        case1.add_Officer(officer2);
+        case1.add_criminal(criminal1);
+        load_case_ids();
+        CaseIdSelected();
+    }
+    
+    public void CaseIdSelected()
+    {
+        int CaseID = Integer.parseInt(String.valueOf(CasesCombobox.getSelectedItem()));
+//        System.out.println(CaseID);
+        Case selectedCase = Case.get_case_by_id(CaseID);
+//        selectedCase.displayCase();
+        DescriptionField.setText(selectedCase.getDescription());
+        StartDateField.setText(selectedCase.getStartDate());
+        LastUpdatedDateField.setText(selectedCase.getLastUpdateDate());
+        CrimeTypeField.setText(selectedCase.getCrimeType());
+        DepartmentField.setText(selectedCase.getDepartment().getName());
+        load_case_officers(selectedCase);
+        load_case_criminals(selectedCase);
+    }
+    
+    public void load_case_ids()
+    {
+        CasesCombobox.removeAllItems();
+        for (int i = 0; i < Case.cases.size(); i++)
+        {
+            CasesCombobox.addItem(String.valueOf(Case.cases.get(i).getId()));
+        }
+    }
+    
+    public void load_case_officers(Case case_)
+    {
+        OfficersList.removeAll();
+        Vector<Police_Officer> officers = case_.getOfficers_assigned();
+        DefaultListModel m = new DefaultListModel();
+        for (int i = 0; i < case_.getOfficers_assigned().size(); i++)
+        {
+            String name = case_.getOfficers_assigned().get(i).getName();
+            int id = case_.getOfficers_assigned().get(i).getId();
+            String item = id + ":" + name;
+            m.addElement(id + " " + name);
+        }
+        OfficersList.setModel(m);
+    }
+    
+    public void load_case_criminals(Case case_)
+    {
+        CriminalsList.removeAll();
+        Vector<Criminal> criminals = case_.getCriminalsInvolved();
+        DefaultListModel m = new DefaultListModel();
+        for (int i = 0; i < criminals.size(); i++)
+        {
+            String name = criminals.get(i).get_name();
+            int id = criminals.get(i).get_id();
+            String element = id + " " + name;
+            m.addElement(element);
+        }
+        CriminalsList.setModel(m);
     }
 
     /**
@@ -37,6 +108,25 @@ public class CaseManagementForm extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         CardLayoutPanel = new javax.swing.JPanel();
         ViewCasesCard = new javax.swing.JPanel();
+        CasesCombobox = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        CriminalsList = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        OfficersList = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        DescriptionField = new javax.swing.JTextArea();
+        StartDateField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        DepartmentField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        LastUpdatedDateField = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        CrimeTypeField = new javax.swing.JTextField();
         AddCasesCard = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -122,17 +212,188 @@ public class CaseManagementForm extends javax.swing.JFrame {
         CardLayoutPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         CardLayoutPanel.setLayout(new java.awt.CardLayout());
 
-        ViewCasesCard.setBackground(new java.awt.Color(0, 255, 0));
+        ViewCasesCard.setBackground(new java.awt.Color(0, 40, 89));
+
+        CasesCombobox.setBackground(new java.awt.Color(0, 26, 53));
+        CasesCombobox.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        CasesCombobox.setForeground(new java.awt.Color(255, 255, 255));
+        CasesCombobox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 59, 115), 3));
+        CasesCombobox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CasesComboboxActionPerformed(evt);
+            }
+        });
+
+        CriminalsList.setBackground(new java.awt.Color(0, 26, 53));
+        CriminalsList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 59, 115)));
+        CriminalsList.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        CriminalsList.setForeground(new java.awt.Color(255, 255, 255));
+        CriminalsList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        CriminalsList.setSelectionBackground(new java.awt.Color(0, 120, 187));
+        jScrollPane3.setViewportView(CriminalsList);
+
+        OfficersList.setBackground(new java.awt.Color(0, 26, 53));
+        OfficersList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 59, 115)));
+        OfficersList.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        OfficersList.setForeground(new java.awt.Color(255, 255, 255));
+        OfficersList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        OfficersList.setSelectionBackground(new java.awt.Color(0, 120, 187));
+        jScrollPane4.setViewportView(OfficersList);
+
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel2.setText("Cases ID");
+
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel3.setText("Criminals Involved");
+
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel4.setText("Officers Assigned");
+
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel5.setText("Last Update");
+
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel6.setText("Description");
+
+        jScrollPane1.setHorizontalScrollBar(null);
+
+        DescriptionField.setBackground(new java.awt.Color(0, 26, 53));
+        DescriptionField.setColumns(20);
+        DescriptionField.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        DescriptionField.setRows(5);
+        DescriptionField.setText("Text Area Test");
+        DescriptionField.setEnabled(false);
+        jScrollPane1.setViewportView(DescriptionField);
+
+        StartDateField.setBackground(new java.awt.Color(0, 26, 53));
+        StartDateField.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        StartDateField.setForeground(new java.awt.Color(255, 255, 255));
+        StartDateField.setText("date");
+        StartDateField.setBorder(null);
+        StartDateField.setEnabled(false);
+
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel7.setText("Start Date");
+
+        DepartmentField.setBackground(new java.awt.Color(0, 26, 53));
+        DepartmentField.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        DepartmentField.setForeground(new java.awt.Color(255, 255, 255));
+        DepartmentField.setText("Departmeny");
+        DepartmentField.setBorder(null);
+        DepartmentField.setEnabled(false);
+
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel8.setText("Department");
+
+        LastUpdatedDateField.setBackground(new java.awt.Color(0, 26, 53));
+        LastUpdatedDateField.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        LastUpdatedDateField.setForeground(new java.awt.Color(255, 255, 255));
+        LastUpdatedDateField.setText("date");
+        LastUpdatedDateField.setBorder(null);
+        LastUpdatedDateField.setEnabled(false);
+
+        jLabel10.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 120, 187));
+        jLabel10.setText("Crime Type");
+
+        CrimeTypeField.setBackground(new java.awt.Color(0, 26, 53));
+        CrimeTypeField.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        CrimeTypeField.setForeground(new java.awt.Color(255, 255, 255));
+        CrimeTypeField.setText("Crime type");
+        CrimeTypeField.setBorder(null);
+        CrimeTypeField.setEnabled(false);
 
         javax.swing.GroupLayout ViewCasesCardLayout = new javax.swing.GroupLayout(ViewCasesCard);
         ViewCasesCard.setLayout(ViewCasesCardLayout);
         ViewCasesCardLayout.setHorizontalGroup(
             ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1286, Short.MAX_VALUE)
+            .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ViewCasesCardLayout.createSequentialGroup()
+                        .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(StartDateField)
+                            .addComponent(DepartmentField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LastUpdatedDateField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(CrimeTypeField, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                        .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CasesCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         ViewCasesCardLayout.setVerticalGroup(
             ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 823, Short.MAX_VALUE)
+            .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CasesCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                        .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                                .addGap(84, 84, 84)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(39, 39, 39)
+                        .addGroup(ViewCasesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                                .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(LastUpdatedDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(CrimeTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addComponent(DepartmentField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ViewCasesCardLayout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         CardLayoutPanel.add(ViewCasesCard, "card3");
@@ -215,6 +476,10 @@ public class CaseManagementForm extends javax.swing.JFrame {
         CardLayoutPanel.revalidate();
     }//GEN-LAST:event_AddButtonActionPerformed
 
+    private void CasesComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CasesComboboxActionPerformed
+        CaseIdSelected();
+    }//GEN-LAST:event_CasesComboboxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -255,13 +520,32 @@ public class CaseManagementForm extends javax.swing.JFrame {
     private javax.swing.JButton AddButton;
     private javax.swing.JPanel AddCasesCard;
     private javax.swing.JPanel CardLayoutPanel;
+    private javax.swing.JComboBox<String> CasesCombobox;
+    private javax.swing.JTextField CrimeTypeField;
+    private javax.swing.JList<String> CriminalsList;
     private javax.swing.JButton DeleteButton;
+    private javax.swing.JTextField DepartmentField;
+    private javax.swing.JTextArea DescriptionField;
     private javax.swing.JButton EditButton;
+    private javax.swing.JTextField LastUpdatedDateField;
+    private javax.swing.JList<String> OfficersList;
+    private javax.swing.JTextField StartDateField;
     private javax.swing.JButton ViewButton;
     private javax.swing.JPanel ViewCasesCard;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     // End of variables declaration//GEN-END:variables
 }

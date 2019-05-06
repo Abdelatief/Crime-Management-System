@@ -1,3 +1,4 @@
+package crime.management.system;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
@@ -10,18 +11,18 @@ public class Case
     private String startDate;
     private String lastUpdateDate;
     private String crimeType;
-    private Department caseDepartment;
+    private Department Department;
     private Vector<Police_Officer> officers_assigned = new Vector<>();
     private Vector<Criminal> criminalsInvolved = new Vector<>();
     public static Vector<Case> cases = new Vector<>();
 
     //parametrized construction with the essential attributes only
-    Case (int id, String crimeType, String description, Department caseDepartment, String startDate)
+    public Case (int id, String crimeType, String description, Department caseDepartment, String startDate)
     {
         this.id = id;
         this.description = description;
         this.crimeType = crimeType;
-        this.caseDepartment = caseDepartment;
+        this.Department = caseDepartment;
         //this.officers_assigned = null;
         //this.criminalsInvolved = null;
         //this.officers_assigned = null;
@@ -40,7 +41,7 @@ public class Case
     }
 
     //parametrized constructor with all the attributes except the last update date
-    Case (int id, String crimeType, String description, Department caseDepartment,
+    public Case (int id, String crimeType, String description, Department caseDepartment,
           Vector<Police_Officer> officers_assigned, Vector<Criminal> criminalsInvolved, String startDate)
     {
         this(id, crimeType, description, caseDepartment,startDate);
@@ -53,7 +54,17 @@ public class Case
     {
         this.cases.add(case_);
     }
-
+    
+    public static Case get_case_by_id(int id)
+    {
+        for (int i = 0; i < cases.size(); i++)
+        {
+            if (cases.get(i).getId() == id)
+                return cases.get(i);
+        }
+        return null;
+    }
+    
     public static void remove_case(Case case_)
     {
         for (int i = 0; i < cases.size(); i++)
@@ -85,7 +96,7 @@ public class Case
         System.out.println("Case ID: " + id);
         System.out.println("Case Crime: " + crimeType);
         System.out.println("Case Description: " + description);
-        System.out.println("Case Department: " + caseDepartment.getName());
+        System.out.println("Case Department: " + Department.getName());
         System.out.println("Case Start Date: " + startDate);
         System.out.println("Case Last update date: " + lastUpdateDate);
     }
@@ -152,14 +163,14 @@ public class Case
         this.lastUpdateDate = getCurrentDate();
     }
 
-    public Department getCaseDepartment()
+    public Department getDepartment()
     {
-        return caseDepartment;
+        return Department;
     }
 
-    public void setCaseDepartment(Department caseDepartment)
+    public void setDepartment(Department caseDepartment)
     {
-        this.caseDepartment = caseDepartment;
+        this.Department = caseDepartment;
         this.lastUpdateDate = getCurrentDate();
     }
 

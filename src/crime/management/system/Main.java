@@ -20,8 +20,8 @@ public class Main
         
         caseFrame.show();
         mainFrame.show();
-        criminalFrame.show();
-        officerFrame.show();
-        departmentFrame.show();
+//        criminalFrame.show();
+//        officerFrame.show();
+//        departmentFrame.show();
     }
 }
