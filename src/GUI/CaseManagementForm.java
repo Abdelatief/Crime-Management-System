@@ -13,17 +13,19 @@ public class CaseManagementForm extends javax.swing.JFrame {
     /**
      * Creates new form CaseManagement
      */
+    DefaultListModel officerModel = new DefaultListModel();
+    DefaultListModel criminalModel = new DefaultListModel();
     DefaultListModel<String> dlm;
     public CaseManagementForm() 
     {
         initComponents();
         //OfficersList = list;
-        // creating some objects for testing
+        //creating some objects for testing
         Department dep = new Department(159, "Public Safety", "5/11/2014");
         Case case1 = new Case(101, "Robbery", "House Robbery", dep, "today");
         Case case2 = new Case(103, "Scam", "Scam description", dep, "17-2-2019");
         Police_Officer officer1 = new Police_Officer(7, "James Bond", "01*****", 25000, dep);
-        Police_Officer officer2 = new Police_Officer(7, "Johny English", "0******", 10000, dep);
+        Police_Officer officer2 = new Police_Officer(7089, "Johny English", "0******", 10000, dep);
         dep.add_officer(officer1);
         dep.add_officer(officer2);
         Vector<String> crimes = new Vector<>();
@@ -38,8 +40,7 @@ public class CaseManagementForm extends javax.swing.JFrame {
         //////////////////////////////////////////////////
         ///add
         //////////////////////////////////////////////////
-        load_departments();
-        
+        load_departments();   
     }
     
     public void CaseIdSelected()
@@ -115,12 +116,12 @@ public class CaseManagementForm extends javax.swing.JFrame {
         String[] depData = String.valueOf(DepartmentsCombobox.getSelectedItem()).split(" ");
         int depId = Integer.parseInt(depData[0]);
         Department dep = Department.get_department_by_id(depId);
-        officersCombobox.removeAllItems();
+        addofficersCombobox.removeAllItems();
         for (int i = 0 ; i < dep.getOfficerList().size(); i++)
         {
             String item = dep.getOfficerList().get(i).getId() + " " +
                     dep.getOfficerList().get(i).getName();
-            officersCombobox.addItem(item);
+            addofficersCombobox.addItem(item);
         }
     }
     
@@ -188,21 +189,24 @@ public class CaseManagementForm extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        DescriptionField1 = new javax.swing.JTextArea();
-        StartDateField1 = new javax.swing.JTextField();
+        CaseDiscription = new javax.swing.JTextArea();
+        caseID = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        LastUpdatedDateField1 = new javax.swing.JTextField();
+        CaseLastUpdatedDate = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        CrimeTypeField1 = new javax.swing.JTextField();
-        StartDateField2 = new javax.swing.JTextField();
+        CaseCrimeType = new javax.swing.JTextField();
+        caseStartDate = new javax.swing.JTextField();
         DepartmentsCombobox = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
-        officersCombobox = new javax.swing.JComboBox<>();
+        addofficersCombobox = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         CriminalsCombobox = new javax.swing.JComboBox<>();
+        addOfficerButton = new javax.swing.JButton();
+        modelButton = new javax.swing.JButton();
+        modelButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 40, 89));
 
@@ -526,19 +530,19 @@ public class CaseManagementForm extends javax.swing.JFrame {
 
         jScrollPane2.setHorizontalScrollBar(null);
 
-        DescriptionField1.setBackground(new java.awt.Color(0, 26, 53));
-        DescriptionField1.setColumns(20);
-        DescriptionField1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        DescriptionField1.setForeground(new java.awt.Color(255, 255, 255));
-        DescriptionField1.setRows(5);
-        DescriptionField1.setText("Text Area Test");
-        jScrollPane2.setViewportView(DescriptionField1);
+        CaseDiscription.setBackground(new java.awt.Color(0, 26, 53));
+        CaseDiscription.setColumns(20);
+        CaseDiscription.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        CaseDiscription.setForeground(new java.awt.Color(255, 255, 255));
+        CaseDiscription.setRows(5);
+        CaseDiscription.setText("Text Area Test");
+        jScrollPane2.setViewportView(CaseDiscription);
 
-        StartDateField1.setBackground(new java.awt.Color(0, 26, 53));
-        StartDateField1.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
-        StartDateField1.setForeground(new java.awt.Color(255, 255, 255));
-        StartDateField1.setText("date");
-        StartDateField1.setBorder(null);
+        caseID.setBackground(new java.awt.Color(0, 26, 53));
+        caseID.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        caseID.setForeground(new java.awt.Color(255, 255, 255));
+        caseID.setText("date");
+        caseID.setBorder(null);
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 120, 187));
@@ -548,27 +552,27 @@ public class CaseManagementForm extends javax.swing.JFrame {
         jLabel16.setForeground(new java.awt.Color(0, 120, 187));
         jLabel16.setText("Department");
 
-        LastUpdatedDateField1.setBackground(new java.awt.Color(0, 26, 53));
-        LastUpdatedDateField1.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
-        LastUpdatedDateField1.setForeground(new java.awt.Color(255, 255, 255));
-        LastUpdatedDateField1.setText("date");
-        LastUpdatedDateField1.setBorder(null);
+        CaseLastUpdatedDate.setBackground(new java.awt.Color(0, 26, 53));
+        CaseLastUpdatedDate.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        CaseLastUpdatedDate.setForeground(new java.awt.Color(255, 255, 255));
+        CaseLastUpdatedDate.setText("date");
+        CaseLastUpdatedDate.setBorder(null);
 
         jLabel17.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 120, 187));
         jLabel17.setText("Crime Type");
 
-        CrimeTypeField1.setBackground(new java.awt.Color(0, 26, 53));
-        CrimeTypeField1.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
-        CrimeTypeField1.setForeground(new java.awt.Color(255, 255, 255));
-        CrimeTypeField1.setText("Crime type");
-        CrimeTypeField1.setBorder(null);
+        CaseCrimeType.setBackground(new java.awt.Color(0, 26, 53));
+        CaseCrimeType.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        CaseCrimeType.setForeground(new java.awt.Color(255, 255, 255));
+        CaseCrimeType.setText("Crime type");
+        CaseCrimeType.setBorder(null);
 
-        StartDateField2.setBackground(new java.awt.Color(0, 26, 53));
-        StartDateField2.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
-        StartDateField2.setForeground(new java.awt.Color(255, 255, 255));
-        StartDateField2.setText("date");
-        StartDateField2.setBorder(null);
+        caseStartDate.setBackground(new java.awt.Color(0, 26, 53));
+        caseStartDate.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        caseStartDate.setForeground(new java.awt.Color(255, 255, 255));
+        caseStartDate.setText("date");
+        caseStartDate.setBorder(null);
 
         DepartmentsCombobox.setBackground(new java.awt.Color(0, 26, 53));
         DepartmentsCombobox.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
@@ -584,13 +588,13 @@ public class CaseManagementForm extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(0, 120, 187));
         jLabel18.setText("Officers");
 
-        officersCombobox.setBackground(new java.awt.Color(0, 26, 53));
-        officersCombobox.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        officersCombobox.setForeground(new java.awt.Color(255, 255, 255));
-        officersCombobox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 59, 115), 3));
-        officersCombobox.addActionListener(new java.awt.event.ActionListener() {
+        addofficersCombobox.setBackground(new java.awt.Color(0, 26, 53));
+        addofficersCombobox.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        addofficersCombobox.setForeground(new java.awt.Color(255, 255, 255));
+        addofficersCombobox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 59, 115), 3));
+        addofficersCombobox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                officersComboboxActionPerformed(evt);
+                addofficersComboboxActionPerformed(evt);
             }
         });
 
@@ -608,53 +612,94 @@ public class CaseManagementForm extends javax.swing.JFrame {
             }
         });
 
+        addOfficerButton.setBackground(new java.awt.Color(0, 59, 115));
+        addOfficerButton.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        addOfficerButton.setForeground(new java.awt.Color(255, 255, 255));
+        addOfficerButton.setText("Add Officer");
+        addOfficerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addOfficerButtonActionPerformed(evt);
+            }
+        });
+
+        modelButton.setBackground(new java.awt.Color(0, 59, 115));
+        modelButton.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        modelButton.setForeground(new java.awt.Color(255, 255, 255));
+        modelButton.setText("Add Criminal");
+        modelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modelButtonActionPerformed(evt);
+            }
+        });
+
+        modelButton1.setBackground(new java.awt.Color(0, 59, 115));
+        modelButton1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        modelButton1.setForeground(new java.awt.Color(255, 255, 255));
+        modelButton1.setText("Add Case");
+        modelButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modelButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout addCasesPanelLayout = new javax.swing.GroupLayout(addCasesPanel);
         addCasesPanel.setLayout(addCasesPanelLayout);
         addCasesPanelLayout.setHorizontalGroup(
             addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addCasesPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addCasesPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(addCasesPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(CriminalsCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(caseID))
+                    .addGroup(addCasesPanelLayout.createSequentialGroup()
+                        .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addCasesPanelLayout.createSequentialGroup()
+                                .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addCasesPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
+                        .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addofficersCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CaseLastUpdatedDate, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(caseStartDate, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(CaseCrimeType, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DepartmentsCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CriminalsCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(addCasesPanelLayout.createSequentialGroup()
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(addCasesPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(StartDateField1))
-                    .addGroup(addCasesPanelLayout.createSequentialGroup()
-                        .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(officersCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(LastUpdatedDateField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(StartDateField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(CrimeTypeField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(DepartmentsCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(addCasesPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addCasesPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 33, Short.MAX_VALUE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addCasesPanelLayout.createSequentialGroup()
+                        .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(addOfficerButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(addCasesPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 28, Short.MAX_VALUE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(modelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(addCasesPanelLayout.createSequentialGroup()
+                .addGap(458, 458, 458)
+                .addComponent(modelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         addCasesPanelLayout.setVerticalGroup(
             addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -664,7 +709,7 @@ public class CaseManagementForm extends javax.swing.JFrame {
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(StartDateField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(caseID, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(addCasesPanelLayout.createSequentialGroup()
@@ -676,11 +721,11 @@ public class CaseManagementForm extends javax.swing.JFrame {
                         .addGap(39, 39, 39)
                         .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(addCasesPanelLayout.createSequentialGroup()
-                                .addComponent(StartDateField2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(caseStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(LastUpdatedDateField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CaseLastUpdatedDate, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(CrimeTypeField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CaseCrimeType, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(DepartmentsCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -694,15 +739,20 @@ public class CaseManagementForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(officersCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(addofficersCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addOfficerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(CriminalsCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(modelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(addCasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CriminalsCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addComponent(modelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         CardLayoutPanel.add(addCasesPanel, "card3");
@@ -778,13 +828,74 @@ public class CaseManagementForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DepartmentsComboboxActionPerformed
 
-    private void officersComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officersComboboxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_officersComboboxActionPerformed
+    private void addofficersComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addofficersComboboxActionPerformed
+        
+    }//GEN-LAST:event_addofficersComboboxActionPerformed
 
     private void CriminalsComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CriminalsComboboxActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_CriminalsComboboxActionPerformed
+
+    private void addOfficerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOfficerButtonActionPerformed
+        String selectedOfficer = String.valueOf(addofficersCombobox.getSelectedItem());
+        if (officerModel.contains(selectedOfficer))
+        {
+            //fuck yourself
+        }
+        else
+        {
+            officerModel.addElement(selectedOfficer);
+            OfficersList1.setModel(officerModel);
+        }
+        System.out.println(selectedOfficer);
+    }//GEN-LAST:event_addOfficerButtonActionPerformed
+
+    private void modelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelButtonActionPerformed
+        String selectedOfficer = String.valueOf(CriminalsCombobox.getSelectedItem());
+        if (criminalModel.contains(selectedOfficer))
+        {
+            //fuck yourself
+        }
+        else
+        {
+            criminalModel.addElement(selectedOfficer);
+            CriminalsList1.setModel(criminalModel);
+        }
+    }//GEN-LAST:event_modelButtonActionPerformed
+
+    private void modelButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelButton1ActionPerformed
+        int id_ = Integer.parseInt(caseID.getText());
+        String crime = CaseCrimeType.getText();
+        String description = CaseDiscription.getText();
+        String start_date = caseStartDate.getText();
+        String last_update_date = CaseLastUpdatedDate.getText();
+        String departmentField = String.valueOf(DepartmentsCombobox.getSelectedItem());
+        String[] data = departmentField.split(" ");
+        int departmentId = Integer.parseInt(data[0]);
+        Department department = Department.get_department_by_id(departmentId);
+        
+        Case newCase = new Case(id_, crime, description, department, start_date);
+        
+        for (int i = 0; i < officerModel.size(); i++)
+        {
+            String[] officerData =  String.valueOf(officerModel.get(i)).split(" ");
+            int officerID = Integer.parseInt(officerData[0]);
+            Police_Officer officer = Police_Officer.get_officer_by_id(officerID);
+            newCase.add_Officer(officer);
+        }
+        
+        for (int i = 0; i < criminalModel.size(); i++)
+        {
+            String[] criminalData = String.valueOf(criminalModel.get(i)).split(" ");
+            int criminalID = Integer.parseInt(criminalData[0]);
+            Criminal criminal = Criminal.get_criminal_by_id(criminalID);
+            newCase.add_criminal(criminal);
+        }
+        for (int j = 0; j < Case.cases.size(); j++)
+        {
+            Case.cases.get(j).displayCase();
+        }
+    }//GEN-LAST:event_modelButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -825,9 +936,11 @@ public class CaseManagementForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
     private javax.swing.JPanel CardLayoutPanel;
+    private javax.swing.JTextField CaseCrimeType;
+    private javax.swing.JTextArea CaseDiscription;
+    private javax.swing.JTextField CaseLastUpdatedDate;
     private javax.swing.JComboBox<String> CasesCombobox;
     private javax.swing.JTextField CrimeTypeField;
-    private javax.swing.JTextField CrimeTypeField1;
     private javax.swing.JComboBox<String> CriminalsCombobox;
     private javax.swing.JList<String> CriminalsList;
     private javax.swing.JList<String> CriminalsList1;
@@ -835,18 +948,18 @@ public class CaseManagementForm extends javax.swing.JFrame {
     private javax.swing.JTextField DepartmentField;
     private javax.swing.JComboBox<String> DepartmentsCombobox;
     private javax.swing.JTextArea DescriptionField;
-    private javax.swing.JTextArea DescriptionField1;
     private javax.swing.JButton EditButton;
     private javax.swing.JTextField LastUpdatedDateField;
-    private javax.swing.JTextField LastUpdatedDateField1;
     private javax.swing.JList<String> OfficersList;
     private javax.swing.JList<String> OfficersList1;
     private javax.swing.JTextField StartDateField;
-    private javax.swing.JTextField StartDateField1;
-    private javax.swing.JTextField StartDateField2;
     private javax.swing.JButton ViewButton;
     private javax.swing.JPanel ViewCasesCard;
     private javax.swing.JPanel addCasesPanel;
+    private javax.swing.JButton addOfficerButton;
+    private javax.swing.JComboBox<String> addofficersCombobox;
+    private javax.swing.JTextField caseID;
+    private javax.swing.JTextField caseStartDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -875,7 +988,8 @@ public class CaseManagementForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JComboBox<String> officersCombobox;
+    private javax.swing.JButton modelButton;
+    private javax.swing.JButton modelButton1;
     private javax.swing.JPanel prollydelet;
     // End of variables declaration//GEN-END:variables
 }

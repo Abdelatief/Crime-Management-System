@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package GUI;
+import javax.swing.JFrame;
 
 /**
  *
@@ -304,6 +305,11 @@ public class LoginForm extends javax.swing.JFrame {
         LoginButton1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         LoginButton1.setForeground(new java.awt.Color(255, 255, 255));
         LoginButton1.setText("Cases");
+        LoginButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginButton1ActionPerformed(evt);
+            }
+        });
 
         LoginButton2.setBackground(new java.awt.Color(0, 59, 115));
         LoginButton2.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
@@ -419,7 +425,7 @@ public class LoginForm extends javax.swing.JFrame {
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         if (AdminCheckbox.isSelected())
         {
-            //but the admin log in condition here
+            //put the admin log in condition here
             AuthinticationCardLayout.removeAll();
             AuthinticationCardLayout.add(AdminButtonsPanel);
             AuthinticationCardLayout.repaint();
@@ -428,7 +434,7 @@ public class LoginForm extends javax.swing.JFrame {
         
         else
         {
-            //but the officer log in condition here
+            //put the officer log in condition here
             AuthinticationCardLayout.removeAll();
             AuthinticationCardLayout.add(OfficersButtonsPanel);
             AuthinticationCardLayout.repaint();
@@ -455,6 +461,11 @@ public class LoginForm extends javax.swing.JFrame {
         PasswordTextfield.setText("");
         IdTextField.setText("");
     }//GEN-LAST:event_LoginButton3ActionPerformed
+
+    private void LoginButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButton1ActionPerformed
+        JFrame caseForm = new CaseManagementForm();
+        caseForm.show();
+    }//GEN-LAST:event_LoginButton1ActionPerformed
 
     /**
      * @param args the command line arguments

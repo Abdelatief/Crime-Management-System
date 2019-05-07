@@ -572,6 +572,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Cases"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoginButton1ActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="LoginButton2">
                   <Properties>

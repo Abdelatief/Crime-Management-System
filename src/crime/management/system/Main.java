@@ -19,7 +19,7 @@ public class Main
         JFrame departmentFrame = new DepartmentManagementForm();
         
         caseFrame.show();
-        mainFrame.show();
+//        mainFrame.show();
 //        criminalFrame.show();
 //        officerFrame.show();
 //        departmentFrame.show();

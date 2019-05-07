@@ -26,6 +26,16 @@ public class Criminal extends person
     {
            return this;
     }
+    
+    public static Criminal get_criminal_by_id(int id)
+    {
+        for (int i = 0; i < criminals.size(); i++)
+        {
+            if (criminals.get(i).get_id() == id)
+                return criminals.get(i);
+        }
+        return null;
+    }
 
     public void addcriminal (int id , String name,String currentlocation,Vector<String> Crimes,String Danger)
     {

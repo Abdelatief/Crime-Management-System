@@ -99,13 +99,16 @@ public class Case
         System.out.println("Case Department: " + Department.getName());
         System.out.println("Case Start Date: " + startDate);
         System.out.println("Case Last update date: " + lastUpdateDate);
+        for (Police_Officer officer : this.officers_assigned)
+        {
+            System.out.println(officer.getId() + officer.getName());
+        }
     }
 
     public Vector<Case> getCases()
     {
         return this.cases;
     }
-
 
     //getters and setters for all the attributes
     public int getId()
